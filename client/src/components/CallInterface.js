@@ -6,71 +6,60 @@ function CallInterface({ call, onEndCall }) {
   const remoteAudioRef = useRef(null);
 
   useEffect(() => {
-    // Set up local audio
     if (localAudioRef.current && call.localStream) {
       localAudioRef.current.srcObject = call.localStream;
     }
+  }, [call.localStream]);
 
-    // Set up remote audio
+  useEffect(() => {
     if (remoteAudioRef.current && call.remoteStream) {
       remoteAudioRef.current.srcObject = call.remoteStream;
     }
-  }, [call.localStream, call.remoteStream]);
+  }, [call.remoteStream]);
 
   return (
     <div className="call-interface">
-      <div className="call-header">
-        <h2>Call in Progress</h2>
-        <p className="call-target">Calling: {call.targetId}</p>
-      </div>
-
-      <div className="audio-controls">
-        <div className="audio-container">
-          <div className="audio-label">You</div>
-          <audio
-            ref={localAudioRef}
-            autoPlay
-            muted
-            playsInline
-            className="audio-element"
-          />
-          <div className="audio-visualizer">
-            <div className="visualizer-bar"></div>
-            <div className="visualizer-bar"></div>
-            <div className="visualizer-bar"></div>
+      <div className="call-screen">
+        <div className="caller-avatar-large">
+          <div className="avatar-circle-large">
+            {call.targetId ? call.targetId.charAt(0).toUpperCase() : '?'}
+          </div>
+        </div>
+        
+        <div className="caller-details">
+          <h2 className="caller-name-large">{call.targetId}</h2>
+          <div className="call-status-indicator">
+            {call.connected ? (
+              <span className="status-connected">Connected</span>
+            ) : (
+              <span className="status-connecting">
+                {call.isIncoming ? 'Answering...' : 'Calling...'}
+              </span>
+            )}
           </div>
         </div>
 
-        <div className="audio-container">
-          <div className="audio-label">Remote</div>
-          <audio
-            ref={remoteAudioRef}
-            autoPlay
-            playsInline
-            className="audio-element"
-          />
-          <div className="audio-visualizer">
-            <div className="visualizer-bar"></div>
-            <div className="visualizer-bar"></div>
-            <div className="visualizer-bar"></div>
-          </div>
+        <div className="call-timer">
+          {call.connected && <span>00:00</span>}
+        </div>
+
+        <div className="call-controls">
+          <button className="mute-btn" title="Mute">
+            <span>🔇</span>
+          </button>
+          <button className="end-call-btn-large" onClick={onEndCall}>
+            <span className="end-icon">📞</span>
+          </button>
+          <button className="speaker-btn" title="Speaker">
+            <span>🔊</span>
+          </button>
         </div>
       </div>
-
-      <div className="call-status">
-        {call.remoteStream ? (
-          <span className="status-connected">Connected</span>
-        ) : (
-          <span className="status-connecting">Connecting...</span>
-        )}
-      </div>
-
-      <button className="end-call-button" onClick={onEndCall}>
-        📞 End Call
-      </button>
+      
+      <audio ref={localAudioRef} autoPlay muted playsInline style={{ display: 'none' }} />
+      <audio ref={remoteAudioRef} autoPlay playsInline style={{ display: 'none' }} />
     </div>
   );
 }
 
 export default CallInterface;
-

@@ -13,6 +13,9 @@
   max-width: 600px;
   width: 100%;
   padding: 30px;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -55,9 +58,147 @@
   background: #ff9800;
 }
 
+.client-id-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+
 .client-id {
   font-size: 0.8rem;
   color: #999;
+}
+
+.edit-username-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 2px 5px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.edit-username-btn:hover {
+  opacity: 1;
+}
+
+.username-edit {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   margin-left: 10px;
+}
+
+.username-input {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  width: 120px;
+}
+
+.save-username-btn,
+.cancel-username-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 2px 5px;
+  transition: transform 0.2s;
+}
+
+.save-username-btn:hover {
+  color: #4caf50;
+  transform: scale(1.1);
+}
+
+.cancel-username-btn:hover {
+  color: #f44336;
+  transform: scale(1.1);
+}
+
+.server-config-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px 8px;
+  margin-left: 10px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.server-config-btn:hover {
+  opacity: 1;
+}
+
+.server-config {
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.server-config-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.server-config-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.server-url-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.save-server-btn,
+.cancel-server-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.save-server-btn {
+  background: #667eea;
+  color: white;
+}
+
+.save-server-btn:hover {
+  background: #5568d3;
+  transform: translateY(-1px);
+}
+
+.cancel-server-btn {
+  background: #e0e0e0;
+  color: #666;
+}
+
+.cancel-server-btn:hover {
+  background: #d0d0d0;
+}
+
+.server-config-hint {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
