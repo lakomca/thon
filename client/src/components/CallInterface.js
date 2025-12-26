@@ -1,9 +1,30 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import './CallInterface.css';
 
 function CallInterface({ call, onEndCall }) {
   const localAudioRef = useRef(null);
   const remoteAudioRef = useRef(null);
+  const [targetName, setTargetName] = useState('User');
+
+  useEffect(() => {
+    // Fetch target user's name
+    const fetchTargetName = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', call.targetId));
+        if (userDoc.exists()) {
+          setTargetName(userDoc.data().name || 'User');
+        }
+      } catch (error) {
+        console.error('Error fetching target name:', error);
+      }
+    };
+
+    if (call.targetId) {
+      fetchTargetName();
+    }
+  }, [call.targetId]);
 
   useEffect(() => {
     // Set up local audio
@@ -21,7 +42,7 @@ function CallInterface({ call, onEndCall }) {
     <div className="call-interface">
       <div className="call-header">
         <h2>Call in Progress</h2>
-        <p className="call-target">Calling: {call.targetId}</p>
+        <p className="call-target">Calling: {targetName}</p>
       </div>
 
       <div className="audio-controls">

@@ -1,5 +1,13 @@
 .call-interface {
   text-align: center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
 
 .call-header {
@@ -7,13 +15,13 @@
 }
 
 .call-header h2 {
-  color: #333;
+  color: white;
   margin-bottom: 10px;
   font-size: 1.8rem;
 }
 
 .call-target {
-  color: #666;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
 }
 
@@ -27,7 +35,8 @@
 .audio-container {
   flex: 1;
   padding: 20px;
-  background: #f8f9fa;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   border-radius: 15px;
   min-height: 150px;
   display: flex;
@@ -38,7 +47,7 @@
 
 .audio-label {
   font-weight: 600;
-  color: #667eea;
+  color: white;
   margin-bottom: 15px;
   font-size: 1.1rem;
 }
@@ -57,7 +66,7 @@
 
 .visualizer-bar {
   width: 4px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
   border-radius: 2px;
   animation: pulse 1s ease-in-out infinite;
 }
@@ -93,34 +102,36 @@
 }
 
 .status-connected {
-  color: #4caf50;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 600;
   font-size: 1.1rem;
 }
 
 .status-connecting {
-  color: #ff9800;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: 600;
   font-size: 1.1rem;
 }
 
 .end-call-button {
-  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
   color: white;
-  border: none;
+  border: 2px solid white;
   padding: 15px 40px;
   border-radius: 30px;
   cursor: pointer;
   font-size: 1.1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   margin-top: 20px;
 }
 
 .end-call-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(244, 67, 54, 0.6);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .end-call-button:active {

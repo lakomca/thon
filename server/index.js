@@ -40,6 +40,12 @@ wss.on('connection', (ws, req) => {
           
         case 'offer':
           // Forward offer to target client
+          console.log(`[${clientId}] Forwarding offer to ${data.targetId}`);
+          console.log(`Available clients:`, Array.from(clients.keys()));
+          if (!clientId) {
+            console.error('Cannot forward offer: sender not registered');
+            break;
+          }
           forwardToClient(data.targetId, {
             type: 'offer',
             offer: data.offer,
@@ -49,6 +55,7 @@ wss.on('connection', (ws, req) => {
           
         case 'answer':
           // Forward answer to caller
+          console.log(`[${clientId}] Forwarding answer to ${data.targetId}`);
           forwardToClient(data.targetId, {
             type: 'answer',
             answer: data.answer,
@@ -70,6 +77,16 @@ wss.on('connection', (ws, req) => {
           forwardToClient(data.targetId, {
             type: 'call-end',
             senderId: clientId
+          });
+          break;
+          
+        case 'call-rejected':
+          // Notify caller that call was rejected
+          console.log(`[${clientId}] Forwarding call rejection to ${data.targetId}`);
+          forwardToClient(data.targetId, {
+            type: 'call-rejected',
+            rejecterId: clientId,
+            reason: data.reason || 'User is busy'
           });
           break;
           
@@ -98,8 +115,14 @@ function forwardToClient(targetId, message) {
   const targetWs = clients.get(targetId);
   if (targetWs && targetWs.readyState === WebSocket.OPEN) {
     targetWs.send(JSON.stringify(message));
+    console.log(`✓ Message forwarded to ${targetId}:`, message.type);
   } else {
-    console.log(`Target client ${targetId} not found or not connected`);
+    console.error(`✗ Target client ${targetId} not found or not connected.`);
+    console.error(`  Available clients:`, Array.from(clients.keys()));
+    console.error(`  Target WS exists:`, !!targetWs);
+    if (targetWs) {
+      console.error(`  Target WS readyState:`, targetWs.readyState, '(1=OPEN, 2=CLOSING, 3=CLOSED)');
+    }
   }
 }
 
@@ -122,7 +145,11 @@ function generateClientId() {
 }
 
 const PORT = process.env.PORT || 3001;
-server.listen(PORT, () => {
-  console.log(`Signaling server running on port ${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0'; // Listen on all interfaces
+
+server.listen(PORT, HOST, () => {
+  console.log(`Signaling server running on ${HOST}:${PORT}`);
+  console.log(`Server is accessible at ws://localhost:${PORT} (same machine)`);
+  console.log(`Server is accessible at ws://192.168.1.154:${PORT} (other machines on network)`);
 });
 
